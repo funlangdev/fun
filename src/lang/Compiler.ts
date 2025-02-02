@@ -5,6 +5,23 @@ import Expression, {
   WhileExpression,
 } from "../lang/Expression.js";
 
+const PRECEDENCES: { [op: string]: number } = {
+  "=": 1,
+  "||": 2,
+  "&&": 3,
+  "==": 4,
+  "!=": 4,
+  "<": 5,
+  ">": 5,
+  "<=": 5,
+  ">=": 5,
+  "+": 6,
+  "-": 6,
+  "*": 7,
+  "/": 7,
+  "%": 7,
+};
+
 class Compiler {
   public compile(ast: Expression[]): string {
     return this.compileBlock(ast);
@@ -91,7 +108,7 @@ class Compiler {
     return "return" + arg;
   }
 
-  private compileExpression(node: Expression): string {
+  private compileExpression(node: Expression, parentPrecedence = 0): string {
     switch (node.type) {
       case "number":
         return node.value;
@@ -102,13 +119,17 @@ class Compiler {
       case "identifier":
         return node.name;
       case "binary":
-        return (
-          this.compileExpression(node.left) +
-          " " +
-          node.operator +
-          " " +
-          this.compileExpression(node.right)
+        const precedence = this.getPrecedence(node.operator);
+        const left = this.compileExpression(node.left, precedence);
+        const right = this.compileExpression(
+          node.right,
+          precedence + 1,
         );
+        let expression = `${left} ${node.operator} ${right}`;
+        if (precedence < parentPrecedence) {
+          expression = `(${expression})`;
+        }
+        return expression;
       case "unary":
         return node.operator + this.compileExpression(node.operand);
       case "postfix":
@@ -137,6 +158,10 @@ class Compiler {
       .split("\n")
       .map((line) => "  " + line)
       .join("\n");
+  }
+
+  private getPrecedence(operator: string): number {
+    return PRECEDENCES[operator] || 0;
   }
 }
 

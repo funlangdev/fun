@@ -10,6 +10,7 @@ declare class JSTargetCompiler {
     private compileReturnExpression;
     private compileExpression;
     private indent;
+    private getPrecedence;
 }
 declare const _default: JSTargetCompiler;
 export default _default;

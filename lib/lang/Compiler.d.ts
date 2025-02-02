@@ -10,6 +10,7 @@ declare class Compiler {
     private compileReturnExpression;
     private compileExpression;
     private indent;
+    private getPrecedence;
 }
 declare const _default: Compiler;
 export default _default;
