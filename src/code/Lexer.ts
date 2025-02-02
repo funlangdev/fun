@@ -49,12 +49,14 @@ class Lexer {
       }
 
       if (ch === "#") {
+        i++;
+
         let text = "";
         while (code[i] !== undefined && code[i] !== "\n") {
           text += code[i];
           i++;
         }
-        tokens.push({ type: TokenType.Comment, value: text });
+        tokens.push({ type: TokenType.Comment, value: text.trim() });
         continue;
       }
 
