@@ -1,6 +1,6 @@
 import Lexer from "../lib/lang/lexer.js";
 import Parser from "../lib/lang/parser.js";
-import JSTargetCompiler from "../lib/jsoncode/JSTargetCompiler.js";
+import Compiler from "../lib/lang/Compiler.js";
 
 const testCode = `
 var a = 1 + 2 * (1 + 2) + 4
@@ -38,7 +38,5 @@ console.log(tokens);
 const ast = new Parser(tokens).parse();
 console.log(JSON.stringify(ast, null, 2));
 
-const jsCode = JSTargetCompiler.compile(ast);
-console.log(jsCode);
-
-eval(jsCode);
+const code = Compiler.compile(ast);
+console.log(code);

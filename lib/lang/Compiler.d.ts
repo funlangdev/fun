@@ -1,5 +1,5 @@
 import Expression from "../lang/Expression.js";
-declare class JSTargetCompiler {
+declare class Compiler {
     compile(ast: Expression[]): string;
     private compileBlock;
     private compileNode;
@@ -11,6 +11,6 @@ declare class JSTargetCompiler {
     private compileExpression;
     private indent;
 }
-declare const _default: JSTargetCompiler;
+declare const _default: Compiler;
 export default _default;
-//# sourceMappingURL=JSTargetCompiler.d.ts.map
+//# sourceMappingURL=Compiler.d.ts.map

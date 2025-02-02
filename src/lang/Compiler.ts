@@ -5,7 +5,7 @@ import Expression, {
   WhileExpression,
 } from "../lang/Expression.js";
 
-class JSTargetCompiler {
+class Compiler {
   public compile(ast: Expression[]): string {
     return this.compileBlock(ast);
   }
@@ -40,12 +40,12 @@ class JSTargetCompiler {
       case "comment":
         return "\n" + this.compileExpression(node);
       default:
-        return this.compileExpression(node) + ";";
+        return this.compileExpression(node);
     }
   }
 
   private compileVarDeclaration(node: VarDeclaration): string {
-    return "var " + node.name + " = " + this.compileExpression(node.init) + ";";
+    return "var " + node.name + " = " + this.compileExpression(node.init);
   }
 
   private compileFunctionDeclaration(node: FunctionDeclaration): string {
@@ -88,7 +88,7 @@ class JSTargetCompiler {
     ) {
       arg = " " + this.compileExpression((node as any).argument);
     }
-    return "return" + arg + ";";
+    return "return" + arg;
   }
 
   private compileExpression(node: Expression): string {
@@ -126,7 +126,7 @@ class JSTargetCompiler {
         return this.compileExpression(node.object) + "." +
           this.compileExpression(node.property);
       case "comment":
-        return "// " + node.text;
+        return "# " + node.text;
       default:
         throw new Error("Unknown expression type: " + node.type);
     }
@@ -140,4 +140,4 @@ class JSTargetCompiler {
   }
 }
 
-export default new JSTargetCompiler();
+export default new Compiler();

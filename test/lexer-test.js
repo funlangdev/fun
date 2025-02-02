@@ -1,4 +1,4 @@
-import Lexer from "../lib/code/lexer.js";
+import Lexer from "../lib/lang/lexer.js";
 
 const testCode = `
 var a = 1 + 2 + 3

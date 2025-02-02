@@ -1,6 +1,5 @@
-import Lexer from "../lib/code/lexer.js";
-import Parser from "../lib/code/parser.js";
-import JSTargetCompiler from "../lib/jsoncode/JSTargetCompiler.js";
+import Lexer from "../lib/lang/lexer.js";
+import Parser from "../lib/lang/parser.js";
 
 const testCode = `
 var a = 1 + 2 * (1 + 2) + 4
