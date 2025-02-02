@@ -1,6 +1,7 @@
 import Expression from "./Expression.js";
 import Token from "./Token.js";
 declare class Parser {
+    private parseExpression;
     parse(tokens: Token[]): Expression[];
 }
 declare const _default: Parser;
