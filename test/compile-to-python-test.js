@@ -1,6 +1,6 @@
-import Lexer from "../lib/lang/lexer.js";
-import Parser from "../lib/lang/parser.js";
-import PythonTargetCompiler from "../lib/jsoncode/PythonTargetCompiler.js";
+import PythonTargetCompiler from "../lib/compilers/PythonTargetCompiler.js";
+import Lexer from "../lib/funlang/Lexer.js";
+import Parser from "../lib/funlang/Parser.js";
 
 const testCode = `
 var a = 1 + 2 * (1 + 2) + 4

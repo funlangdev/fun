@@ -1,6 +1,6 @@
-import Lexer from "../lib/lang/lexer.js";
-import Parser from "../lib/lang/parser.js";
-import Compiler from "../lib/lang/Compiler.js";
+import Compiler from "../lib/funlang/Compiler.js";
+import Lexer from "../lib/funlang/Lexer.js";
+import Parser from "../lib/funlang/Parser.js";
 
 const testCode = `
 var a = 1 + 2 * (1 + 2) + 4
