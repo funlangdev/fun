@@ -1,0 +1,25 @@
+[
+  {
+    "type": "var",
+    "name": "name",
+    "value": "John"
+  },
+  {
+    "type": "call",
+    "function": "print",
+    "args": [
+      {
+        "type": "string",
+        "value": "Hello, "
+      },
+      {
+        "type": "var",
+        "name": "name"
+      },
+      {
+        "type": "string",
+        "value": "!"
+      }
+    ]
+  }
+]

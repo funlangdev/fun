@@ -1,0 +1,12 @@
+[
+  {
+    "type": "call",
+    "function": "print",
+    "args": [
+      {
+        "type": "string",
+        "value": "Hello, World!"
+      }
+    ]
+  }
+]
