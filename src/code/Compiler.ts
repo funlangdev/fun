@@ -4,6 +4,7 @@ import Expression from "./Expression.js";
 class Compiler {
   public compile(ast: Expression[]): string {
     //TODO:
+    throw new Error("Not implemented");
   }
 
   //TODO:

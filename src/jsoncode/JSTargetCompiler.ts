@@ -7,13 +7,28 @@ import Expression, {
 
 class JSTargetCompiler {
   public compile(ast: Expression[]): string {
-    return ast.map((node) => this.compileNode(node)).join("\n");
+    return this.compileBlock(ast);
+  }
+
+  private compileBlock(ast: Expression[]): string {
+    let code = "";
+    let prevType = "";
+
+    for (const node of ast) {
+      if (prevType === "var" && node.type === "var") {
+        code = code.trim();
+      }
+      prevType = node.type;
+      code += this.compileNode(node) + "\n";
+    }
+
+    return code.trim().replace(/\n\n+/g, "\n\n");
   }
 
   private compileNode(node: Expression): string {
     switch (node.type) {
       case "var":
-        return this.compileVarDeclaration(node) + "\n";
+        return "\n" + this.compileVarDeclaration(node) + "\n";
       case "function":
         return this.compileFunctionDeclaration(node);
       case "if":
@@ -35,7 +50,7 @@ class JSTargetCompiler {
 
   private compileFunctionDeclaration(node: FunctionDeclaration): string {
     const params = node.params.join(", ");
-    const body = node.body.map((stmt) => this.compileNode(stmt)).join("\n");
+    const body = this.compileBlock(node.body);
     return (
       "function " +
       node.name +
@@ -49,15 +64,11 @@ class JSTargetCompiler {
 
   private compileIfExpression(node: IfExpression): string {
     let code = "if (" + this.compileExpression(node.test) + ") {\n";
-    code += this.indent(
-      node.then.map((stmt) => this.compileNode(stmt)).join("\n"),
-    );
+    code += this.indent(this.compileBlock(node.then));
     code += "\n}";
     if (node.else) {
       code += " else {\n";
-      code += this.indent(
-        node.else.map((stmt) => this.compileNode(stmt)).join("\n"),
-      );
+      code += this.indent(this.compileBlock(node.else));
       code += "\n}";
     }
     return code + "\n";
@@ -65,9 +76,7 @@ class JSTargetCompiler {
 
   private compileWhileExpression(node: WhileExpression): string {
     let code = "while (" + this.compileExpression(node.test) + ") {\n";
-    code += this.indent(
-      node.body.map((stmt) => this.compileNode(stmt)).join("\n"),
-    );
+    code += this.indent(this.compileBlock(node.body));
     code += "\n}";
     return code + "\n";
   }

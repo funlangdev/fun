@@ -1,6 +1,7 @@
 import Expression from "../code/Expression.js";
 declare class JSTargetCompiler {
     compile(ast: Expression[]): string;
+    private compileBlock;
     private compileNode;
     private compileVarDeclaration;
     private compileFunctionDeclaration;
