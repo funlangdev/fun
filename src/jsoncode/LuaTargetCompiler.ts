@@ -23,6 +23,8 @@ const PRECEDENCES: { [op: string]: number } = {
   "%": 7,
 };
 
+const COMPOUND_OPERATORS = new Set(["+=", "-=", "*=", "/=", "%="]);
+
 class LuaTargetCompiler {
   public compile(ast: Expression[]): string {
     return this.compileBlock(ast);
@@ -99,6 +101,11 @@ class LuaTargetCompiler {
     return "-- " + (node as Comment).text;
   }
 
+  /**
+   * 여기서 compound assignment 연산자를 체크합니다.
+   * Lua는 += 같은 연산자를 지원하지 않으므로, 만약 compound operator라면
+   * a += b 를 a = a + b 로 변환합니다.
+   */
   private compileExpression(
     node: Expression,
     parentPrecedence: number = 0,
@@ -113,6 +120,18 @@ class LuaTargetCompiler {
       case "identifier":
         return node.name;
       case "binary": {
+        if (COMPOUND_OPERATORS.has(node.operator)) {
+          if (node.left.type !== "identifier") {
+            throw new Error(
+              "Lua에서는 compound assignment의 좌변으로 식별자만 지원합니다.",
+            );
+          }
+          const leftExpr = this.compileExpression(node.left);
+          const simpleOperator = node.operator.slice(0, -1);
+          const luaOperator = this.getLuaOperator(simpleOperator);
+          const rightExpr = this.compileExpression(node.right);
+          return `${leftExpr} = ${leftExpr} ${luaOperator} ${rightExpr}`;
+        }
         const precedence = this.getPrecedence(node.operator);
         const left = this.compileExpression(node.left, precedence);
         const right = this.compileExpression(node.right, precedence + 1);
