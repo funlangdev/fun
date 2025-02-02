@@ -16,5 +16,5 @@ if (a > 3) {
 const tokens = Lexer.tokenize(testCode);
 console.log(tokens);
 
-const ast = Parser.parse(tokens);
+const ast = new Parser(tokens).parse();
 console.log(ast);
