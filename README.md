@@ -6,5 +6,9 @@
 - editor
 
 ```
+npm install -g funlang
+```
+
+```
 fun program.json
 ```
