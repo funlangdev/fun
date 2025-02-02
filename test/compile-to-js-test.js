@@ -4,7 +4,7 @@ import JSTargetCompiler from "../lib/jsoncode/JSTargetCompiler.js";
 
 const testCode = `
 var a = 1 + 2 * (1 + 2) + 4
-var b = 1 + 2 * 1 + 2 + 4++
+var b = 1 + 2 * 1 + 2 + 4
 var c = 1 + 2 + -1 + 2 + +4
 
 var str = "Hello, World!"
@@ -28,8 +28,8 @@ function sub(a, b) {
   return a - b
 }
 
-console.log(add(1, 2))
-console.log(sub(1, 2))
+console.log(add(a, b))
+console.log(sub(b, c))
 `;
 
 const tokens = Lexer.tokenize(testCode);
@@ -37,3 +37,8 @@ console.log(tokens);
 
 const ast = new Parser(tokens).parse();
 console.log(JSON.stringify(ast, null, 2));
+
+const jsCode = JSTargetCompiler.compile(ast);
+console.log(jsCode);
+
+eval(jsCode);
