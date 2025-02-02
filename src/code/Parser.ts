@@ -20,12 +20,18 @@ const PRECEDENCES: { [key: string]: number } = {
 };
 
 class Parser {
-  private parseExpression(tokens: Token[], i: number, precedence: number = 0): [Expression, number] {
+  private parseExpression(
+    tokens: Token[],
+    i: number,
+    precedence: number = 0,
+  ): [Expression, number] {
     while (
       i < tokens.length &&
-      (tokens[i].type === TokenType.Newline || tokens[i].type === TokenType.Comment)
-    )
+      (tokens[i].type === TokenType.Newline ||
+        tokens[i].type === TokenType.Comment)
+    ) {
       i++;
+    }
     if (i >= tokens.length) throw new Error("Unexpected end of input");
 
     let left: Expression;
@@ -43,32 +49,36 @@ class Parser {
     } else if (token.type === TokenType.Keyword) {
       if (token.value === "var") {
         i++;
-        if (i >= tokens.length || tokens[i].type !== TokenType.Identifier)
+        if (i >= tokens.length || tokens[i].type !== TokenType.Identifier) {
           throw new Error("Expected identifier after 'var'");
+        }
         const varName = tokens[i].value!;
         i++;
         if (
           i >= tokens.length ||
           tokens[i].type !== TokenType.Operator ||
           tokens[i].value !== "="
-        )
+        ) {
           throw new Error("Expected '=' after variable name");
+        }
         i++;
         let initExpr: Expression;
         [initExpr, i] = this.parseExpression(tokens, i, 0);
         left = { type: "var", name: varName, init: initExpr };
       } else if (token.value === "function") {
         i++;
-        if (i >= tokens.length || tokens[i].type !== TokenType.Identifier)
+        if (i >= tokens.length || tokens[i].type !== TokenType.Identifier) {
           throw new Error("Expected identifier after 'function'");
+        }
         const funcName = tokens[i].value!;
         i++;
         if (
           i >= tokens.length ||
           tokens[i].type !== TokenType.Punctuation ||
           tokens[i].value !== "("
-        )
+        ) {
           throw new Error("Expected '(' after function name");
+        }
         i++;
         const params: string[] = [];
         while (
@@ -82,8 +92,9 @@ class Parser {
               i < tokens.length &&
               tokens[i].type === TokenType.Punctuation &&
               tokens[i].value === ","
-            )
+            ) {
               i++;
+            }
           } else {
             throw new Error("Expected identifier in function parameters");
           }
@@ -92,15 +103,17 @@ class Parser {
           i >= tokens.length ||
           tokens[i].type !== TokenType.Punctuation ||
           tokens[i].value !== ")"
-        )
+        ) {
           throw new Error("Expected ')' after function parameters");
+        }
         i++;
         if (
           i >= tokens.length ||
           tokens[i].type !== TokenType.Punctuation ||
           tokens[i].value !== "{"
-        )
+        ) {
           throw new Error("Expected '{' to start function body");
+        }
         i++;
         const body: Expression[] = [];
         while (
@@ -115,8 +128,9 @@ class Parser {
           i >= tokens.length ||
           tokens[i].type !== TokenType.Punctuation ||
           tokens[i].value !== "}"
-        )
+        ) {
           throw new Error("Expected '}' at end of function body");
+        }
         i++;
         left = { type: "function", name: funcName, params, body };
       } else if (token.value === "if") {
@@ -125,8 +139,9 @@ class Parser {
           i >= tokens.length ||
           tokens[i].type !== TokenType.Punctuation ||
           tokens[i].value !== "("
-        )
+        ) {
           throw new Error("Expected '(' after 'if'");
+        }
         i++;
         let testExpr: Expression;
         [testExpr, i] = this.parseExpression(tokens, i, 0);
@@ -134,15 +149,17 @@ class Parser {
           i >= tokens.length ||
           tokens[i].type !== TokenType.Punctuation ||
           tokens[i].value !== ")"
-        )
+        ) {
           throw new Error("Expected ')' after if test expression");
+        }
         i++;
         if (
           i >= tokens.length ||
           tokens[i].type !== TokenType.Punctuation ||
           tokens[i].value !== "{"
-        )
+        ) {
           throw new Error("Expected '{' to start if then block");
+        }
         i++;
         const thenBlock: Expression[] = [];
         while (
@@ -157,8 +174,9 @@ class Parser {
           i >= tokens.length ||
           tokens[i].type !== TokenType.Punctuation ||
           tokens[i].value !== "}"
-        )
+        ) {
           throw new Error("Expected '}' after if then block");
+        }
         i++;
         let elseBlock: Expression[] | undefined;
         if (
@@ -171,8 +189,9 @@ class Parser {
             i >= tokens.length ||
             tokens[i].type !== TokenType.Punctuation ||
             tokens[i].value !== "{"
-          )
+          ) {
             throw new Error("Expected '{' to start else block");
+          }
           i++;
           elseBlock = [];
           while (
@@ -188,8 +207,9 @@ class Parser {
             i >= tokens.length ||
             tokens[i].type !== TokenType.Punctuation ||
             tokens[i].value !== "}"
-          )
+          ) {
             throw new Error("Expected '}' after else block");
+          }
           i++;
         }
         left = { type: "if", test: testExpr, then: thenBlock, else: elseBlock };
@@ -199,8 +219,9 @@ class Parser {
           i >= tokens.length ||
           tokens[i].type !== TokenType.Punctuation ||
           tokens[i].value !== "("
-        )
+        ) {
           throw new Error("Expected '(' after 'while'");
+        }
         i++;
         let testExpr: Expression;
         [testExpr, i] = this.parseExpression(tokens, i, 0);
@@ -208,15 +229,17 @@ class Parser {
           i >= tokens.length ||
           tokens[i].type !== TokenType.Punctuation ||
           tokens[i].value !== ")"
-        )
+        ) {
           throw new Error("Expected ')' after while test expression");
+        }
         i++;
         if (
           i >= tokens.length ||
           tokens[i].type !== TokenType.Punctuation ||
           tokens[i].value !== "{"
-        )
+        ) {
           throw new Error("Expected '{' to start while body");
+        }
         i++;
         const body: Expression[] = [];
         while (
@@ -231,8 +254,9 @@ class Parser {
           i >= tokens.length ||
           tokens[i].type !== TokenType.Punctuation ||
           tokens[i].value !== "}"
-        )
+        ) {
           throw new Error("Expected '}' after while body");
+        }
         i++;
         left = { type: "while", test: testExpr, body };
       } else {
@@ -260,8 +284,9 @@ class Parser {
         i >= tokens.length ||
         tokens[i].type !== TokenType.Punctuation ||
         tokens[i].value !== ")"
-      )
+      ) {
         throw new Error("Expected ')' after grouped expression");
+      }
       i++;
     } else {
       throw new Error("Unexpected token: " + JSON.stringify(token));
@@ -285,15 +310,17 @@ class Parser {
           i < tokens.length &&
           tokens[i].type === TokenType.Punctuation &&
           tokens[i].value === ","
-        )
+        ) {
           i++;
+        }
       }
       if (
         i >= tokens.length ||
         tokens[i].type !== TokenType.Punctuation ||
         tokens[i].value !== ")"
-      )
+      ) {
         throw new Error("Expected ')' after call arguments");
+      }
       i++;
       left = { type: "call", callee: left, args };
     }
