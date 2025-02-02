@@ -50,6 +50,19 @@ interface CommentExpression {
   text: string;
 }
 
+interface BinaryExpression {
+  type: "binary";
+  operator: string;
+  left: Expression;
+  right: Expression;
+}
+
+interface UnaryExpression {
+  type: "unary";
+  operator: string;
+  argument: Expression;
+}
+
 type Expression =
   | BooleanLiteral
   | NumberLiteral
@@ -59,6 +72,8 @@ type Expression =
   | CallExpression
   | IfExpression
   | WhileExpression
-  | CommentExpression;
+  | CommentExpression
+  | BinaryExpression
+  | UnaryExpression;
 
 export default Expression;

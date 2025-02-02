@@ -41,6 +41,17 @@ interface CommentExpression {
     type: "comment";
     text: string;
 }
-type Expression = BooleanLiteral | NumberLiteral | StringLiteral | VarExpression | FunctionExpression | CallExpression | IfExpression | WhileExpression | CommentExpression;
+interface BinaryExpression {
+    type: "binary";
+    operator: string;
+    left: Expression;
+    right: Expression;
+}
+interface UnaryExpression {
+    type: "unary";
+    operator: string;
+    argument: Expression;
+}
+type Expression = BooleanLiteral | NumberLiteral | StringLiteral | VarExpression | FunctionExpression | CallExpression | IfExpression | WhileExpression | CommentExpression | BinaryExpression | UnaryExpression;
 export default Expression;
 //# sourceMappingURL=Expression.d.ts.map
