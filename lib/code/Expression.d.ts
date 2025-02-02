@@ -61,10 +61,15 @@ export interface WhileExpression {
     test: Expression;
     body: Expression[];
 }
+export interface MemberExpression {
+    type: "member";
+    object: Expression;
+    property: Expression;
+}
 export interface Comment {
     type: "comment";
     text: string;
 }
-type Expression = BooleanLiteral | NumberLiteral | StringLiteral | Identifier | BinaryExpression | UnaryExpression | PostfixExpression | CallExpression | VarDeclaration | FunctionDeclaration | ReturnExpression | IfExpression | WhileExpression | Comment;
+type Expression = BooleanLiteral | NumberLiteral | StringLiteral | Identifier | BinaryExpression | UnaryExpression | PostfixExpression | CallExpression | VarDeclaration | FunctionDeclaration | ReturnExpression | IfExpression | WhileExpression | MemberExpression | Comment;
 export default Expression;
 //# sourceMappingURL=Expression.d.ts.map

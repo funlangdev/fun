@@ -221,7 +221,6 @@ export default class Parser {
         expr = { type: "postfix", operator: opToken.value!, operand: expr };
         continue;
       }
-
       if (this.check(TokenType.Punctuation, "(")) {
         this.advance();
         const args: Expression[] = [];
@@ -232,6 +231,16 @@ export default class Parser {
         }
         this.consume(TokenType.Punctuation, ")");
         expr = { type: "call", callee: expr, args };
+        continue;
+      }
+      if (this.check(TokenType.Punctuation, ".")) {
+        this.advance();
+        const propToken = this.consume(TokenType.Identifier);
+        expr = {
+          type: "member",
+          object: expr,
+          property: { type: "identifier", name: propToken.value! },
+        };
         continue;
       }
       break;

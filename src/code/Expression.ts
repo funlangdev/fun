@@ -74,6 +74,12 @@ export interface WhileExpression {
   body: Expression[];
 }
 
+export interface MemberExpression {
+  type: "member";
+  object: Expression;
+  property: Expression;
+}
+
 export interface Comment {
   type: "comment";
   text: string;
@@ -93,6 +99,7 @@ type Expression =
   | ReturnExpression
   | IfExpression
   | WhileExpression
+  | MemberExpression
   | Comment;
 
 export default Expression;
