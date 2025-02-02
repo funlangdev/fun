@@ -18,6 +18,13 @@ const OPERATORS = new Set([
   ">",
   "<=",
   ">=",
+  "++",
+  "--",
+  "+=",
+  "-=",
+  "*=",
+  "/=",
+  "%=",
 ]);
 const PUNCTUATIONS = new Set(["(", ")", "{", "}", "[", "]", ",", "."]);
 
@@ -30,8 +37,14 @@ class Lexer {
     while (i < code.length) {
       const ch = code[i];
 
+      if (ch === " ") {
+        i++;
+        continue;
+      }
+
       if (ch === "\n") {
         tokens.push({ type: TokenType.Newline });
+        i++;
         continue;
       }
 
@@ -89,23 +102,27 @@ class Lexer {
         continue;
       }
 
-      if (OPERATORS.has(ch)) {
-        tokens.push({ type: TokenType.Operator, value: ch });
+      if (OPERATORS.has(ch + code[i + 1])) {
+        tokens.push({ type: TokenType.Operator, value: ch + code[i + 1] });
+        i += 2;
         continue;
       }
 
-      if (OPERATORS.has(ch + code[i + 1])) {
-        tokens.push({ type: TokenType.Operator, value: ch + code[i + 1] });
+      if (OPERATORS.has(ch)) {
+        tokens.push({ type: TokenType.Operator, value: ch });
         i++;
         continue;
       }
 
       if (PUNCTUATIONS.has(ch)) {
         tokens.push({ type: TokenType.Punctuation, value: ch });
+        i++;
         continue;
       }
 
-      throw new Error(`Unexpected character: ${ch}`);
+      throw new Error(
+        `Unexpected character: ${ch}(${ch.charCodeAt(0)}) at ${i}`,
+      );
     }
 
     return tokens;
