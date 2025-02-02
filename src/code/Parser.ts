@@ -171,6 +171,9 @@ export default class Parser {
     if (!token) {
       throw new Error("Unexpected end of input in primary expression");
     }
+    if (token.type === TokenType.Comment) {
+      return this.parsePostfix({ type: "comment", text: token.value! });
+    }
     if (token.type === TokenType.Number) {
       return this.parsePostfix({ type: "number", value: token.value! });
     }
@@ -206,6 +209,7 @@ export default class Parser {
         expr = { type: "postfix", operator: opToken.value!, operand: expr };
         continue;
       }
+
       if (this.check(TokenType.Punctuation, "(")) {
         this.advance();
         const args: Expression[] = [];

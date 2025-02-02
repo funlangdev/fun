@@ -69,6 +69,11 @@ export interface WhileExpression {
   body: Expression[];
 }
 
+export interface Comment {
+  type: "comment";
+  text: string;
+}
+
 type Expression =
   | BooleanLiteral
   | NumberLiteral
@@ -81,6 +86,7 @@ type Expression =
   | VarDeclaration
   | FunctionDeclaration
   | IfExpression
-  | WhileExpression;
+  | WhileExpression
+  | Comment;
 
 export default Expression;

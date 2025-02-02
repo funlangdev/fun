@@ -57,6 +57,10 @@ export interface WhileExpression {
     test: Expression;
     body: Expression[];
 }
-type Expression = BooleanLiteral | NumberLiteral | StringLiteral | Identifier | BinaryExpression | UnaryExpression | PostfixExpression | CallExpression | VarDeclaration | FunctionDeclaration | IfExpression | WhileExpression;
+export interface Comment {
+    type: "comment";
+    text: string;
+}
+type Expression = BooleanLiteral | NumberLiteral | StringLiteral | Identifier | BinaryExpression | UnaryExpression | PostfixExpression | CallExpression | VarDeclaration | FunctionDeclaration | IfExpression | WhileExpression | Comment;
 export default Expression;
 //# sourceMappingURL=Expression.d.ts.map
