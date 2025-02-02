@@ -1,25 +1,30 @@
-[
-  {
-    "type": "var",
-    "name": "name",
-    "value": "John"
-  },
-  {
-    "type": "call",
-    "function": "print",
-    "args": [
-      {
-        "type": "string",
-        "value": "Hello, "
-      },
+{
+  "Main": {
+    "singleton": true,
+    "code": [
       {
         "type": "var",
-        "name": "name"
+        "name": "name",
+        "value": "John"
       },
       {
-        "type": "string",
-        "value": "!"
+        "type": "call",
+        "function": "print",
+        "args": [
+          {
+            "type": "string",
+            "value": "Hello, "
+          },
+          {
+            "type": "var",
+            "name": "name"
+          },
+          {
+            "type": "string",
+            "value": "!"
+          }
+        ]
       }
     ]
   }
-]
+}

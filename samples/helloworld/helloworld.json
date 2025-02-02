@@ -1,12 +1,17 @@
-[
-  {
-    "type": "call",
-    "function": "print",
-    "args": [
+{
+  "Main": {
+    "singleton": true,
+    "code": [
       {
-        "type": "string",
-        "value": "Hello, World!"
+        "type": "call",
+        "function": "print",
+        "args": [
+          {
+            "type": "string",
+            "value": "Hello, World!"
+          }
+        ]
       }
     ]
   }
-]
+}
