@@ -18,6 +18,17 @@ if (a > 3) {
 } else {
   b = 4
 }
+
+function add(a, b) {
+  return a + b
+}
+
+function sub(a, b) {
+  return a - b
+}
+
+console.log(add(1, 2))
+console.log(sub(1, 2))
 `;
 
 const tokens = Lexer.tokenize(testCode);

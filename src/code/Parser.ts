@@ -51,6 +51,9 @@ export default class Parser {
     if (this.check(TokenType.Keyword, "while")) {
       return this.parseWhileStatement();
     }
+    if (this.check(TokenType.Keyword, "return")) {
+      return this.parseReturnStatement();
+    }
     return this.parseExpression();
   }
 
@@ -98,7 +101,7 @@ export default class Parser {
       thenBlock.push(this.parseStatement());
     }
     this.consume(TokenType.Punctuation, "}");
-    let elseBlock: Expression[] | undefined = undefined;
+    let elseBlock: Expression[] | undefined;
     if (this.match(TokenType.Keyword, "else")) {
       this.consume(TokenType.Punctuation, "{");
       elseBlock = [];
@@ -124,6 +127,15 @@ export default class Parser {
     }
     this.consume(TokenType.Punctuation, "}");
     return { type: "while", test, body };
+  }
+
+  private parseReturnStatement(): Expression {
+    this.consume(TokenType.Keyword, "return");
+    let argument: Expression | undefined;
+    if (!this.check(TokenType.Newline) && !this.isAtEnd()) {
+      argument = this.parseExpression();
+    }
+    return { type: "return", argument };
   }
 
   private parseExpression(precedence: number = 0): Expression {

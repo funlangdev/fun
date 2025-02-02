@@ -10,6 +10,7 @@ export default class Parser {
     private parseFunctionDeclaration;
     private parseIfStatement;
     private parseWhileStatement;
+    private parseReturnStatement;
     private parseExpression;
     private parseUnary;
     private parsePrimary;

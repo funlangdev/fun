@@ -56,6 +56,11 @@ export interface FunctionDeclaration {
   body: Expression[];
 }
 
+export interface ReturnExpression {
+  type: "return";
+  argument?: Expression;
+}
+
 export interface IfExpression {
   type: "if";
   test: Expression;
@@ -85,6 +90,7 @@ type Expression =
   | CallExpression
   | VarDeclaration
   | FunctionDeclaration
+  | ReturnExpression
   | IfExpression
   | WhileExpression
   | Comment;

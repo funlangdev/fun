@@ -46,6 +46,10 @@ export interface FunctionDeclaration {
     params: string[];
     body: Expression[];
 }
+export interface ReturnExpression {
+    type: "return";
+    argument?: Expression;
+}
 export interface IfExpression {
     type: "if";
     test: Expression;
@@ -61,6 +65,6 @@ export interface Comment {
     type: "comment";
     text: string;
 }
-type Expression = BooleanLiteral | NumberLiteral | StringLiteral | Identifier | BinaryExpression | UnaryExpression | PostfixExpression | CallExpression | VarDeclaration | FunctionDeclaration | IfExpression | WhileExpression | Comment;
+type Expression = BooleanLiteral | NumberLiteral | StringLiteral | Identifier | BinaryExpression | UnaryExpression | PostfixExpression | CallExpression | VarDeclaration | FunctionDeclaration | ReturnExpression | IfExpression | WhileExpression | Comment;
 export default Expression;
 //# sourceMappingURL=Expression.d.ts.map
