@@ -1,10 +1,10 @@
-import AST from "./AST.ts";
-import Token from "./Token.ts";
+import Expression from "./Expression.js";
+import Token from "./Token.js";
 
 // tokens -> ast
 class Parser {
-  public parse(tokens: Token[]): AST {
-    const ast: AST = {};
+  public parse(tokens: Token[]): Expression[] {
+    const ast: Expression[] = [];
     return ast;
   }
 }

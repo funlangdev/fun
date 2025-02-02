@@ -1,0 +1,1 @@
+{"version":3,"file":"Lexer.js","sourceRoot":"","sources":["../../src/code/Lexer.ts"],"names":[],"mappings":"AAGA,MAAM,KAAK;IACF,QAAQ,CAAC,IAAY;QAC1B,MAAM,MAAM,GAAY,EAAE,CAAC;QAC3B,OAAO,MAAM,CAAC;IAChB,CAAC;CACF;AAED,eAAe,IAAI,KAAK,EAAE,CAAC"}

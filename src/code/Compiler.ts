@@ -1,8 +1,8 @@
-import AST from "./AST.ts";
+import Expression from "./Expression.js";
 
 // ast -> code
 class Compiler {
-  public compile(ast: AST): string {
+  public compile(ast: Expression[]): string {
     let code = "";
     return code;
   }

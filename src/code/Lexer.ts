@@ -1,4 +1,4 @@
-import Token from "./Token.ts";
+import Token from "./Token.js";
 
 // code -> tokens
 class Lexer {
